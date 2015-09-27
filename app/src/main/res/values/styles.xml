@@ -1,8 +1,32 @@
 <resources>
 
 	<!-- Base application theme. -->
-	<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 		<!-- Customize your theme here. -->
+	</style>
+
+
+	<style name="RobotoMediumTextAppearance">
+		<item name="fontPath">fonts/Roboto-Medium.ttf</item>
+	</style>
+
+	<style name="RobotoLightTextAppearance">
+		<item name="fontPath">fonts/Roboto-Light.ttf</item>
+	</style>
+
+	<style name="LoginActivityEditText">
+		<item name="android:textColorHint">@color/secondary_text</item>
+		<item name="android:textAppearance">@style/RobotoMediumTextAppearance</item>
+		<item name="android:textSize">16sp</item>
+		<item name="android:textColor">@color/primary_text</item>
+	</style>
+
+	<style name="FlatButton">
+		<item name="android:background">?attr/selectableItemBackground</item>
+		<item name="android:minHeight">50dp</item>
+		<item name="android:textAllCaps">true</item>
+		<item name="android:textColor">@color/primary</item>
+		<item name="android:textSize">16sp</item>
 	</style>
 
 </resources>
