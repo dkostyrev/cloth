@@ -3,6 +3,8 @@ package com.nemezis.cloth.ui.activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
+import com.nemezis.cloth.App;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -13,5 +15,9 @@ public class BaseActivity extends AppCompatActivity {
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+	}
+
+	protected final App getApp() {
+		return (App) getApplication();
 	}
 }
