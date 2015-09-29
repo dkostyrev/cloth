@@ -2,15 +2,19 @@ package com.nemezis.cloth.manager;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.nemezis.cloth.App;
 import com.nemezis.cloth.model.User;
 import com.nemezis.cloth.service.FabricService;
+import com.squareup.okhttp.ResponseBody;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.net.HttpCookie;
 import java.util.NoSuchElementException;
 
@@ -26,6 +30,7 @@ import rx.functions.Func1;
  */
 public class AuthorizationManager {
 
+	private static final String LOG_TAG = "AuthorizationManager";
 	private static final String CSRF_TOKEN = "csrf-token";
 	private static final String CONTENT = "content";
 
@@ -43,19 +48,23 @@ public class AuthorizationManager {
 	@Inject
 	FabricService fabricService;
 
+	public AuthorizationManager(App applicationContext) {
+		applicationContext.getApplicationComponent().inject(this);
+	}
+
 	public Observable<User> login(String email, String password) {
 		return fabricService.getLoginPage()
 				.flatMap(getAuthorizationInfo())
 				.flatMap(getUserFromAuthorizationInfo(email, password));
 	}
 
-	private Func1<Response<String>, Observable<AuthorizationInfo>> getAuthorizationInfo() {
-		return new Func1<Response<String>, Observable<AuthorizationInfo>>() {
+	private Func1<Response<ResponseBody>, Observable<AuthorizationInfo>> getAuthorizationInfo() {
+		return new Func1<Response<ResponseBody>, Observable<AuthorizationInfo>>() {
 			@Override
-			public Observable<AuthorizationInfo> call(final Response<String> loginResponse) {
-				return createObservable(loginResponse, new InputCallable<Response<String>, AuthorizationInfo, AuthorizationException>() {
+			public Observable<AuthorizationInfo> call(final Response<ResponseBody> loginResponse) {
+				return createObservable(loginResponse, new InputCallable<Response<ResponseBody>, AuthorizationInfo, AuthorizationException>() {
 					@Override
-					public AuthorizationInfo call(Response<String> input) throws AuthorizationException {
+					public AuthorizationInfo call(Response<ResponseBody> input) throws AuthorizationException {
 						return getAuthorizationInfo(input);
 					}
 				});
@@ -77,12 +86,18 @@ public class AuthorizationManager {
 		};
 	}
 
-	private @NonNull AuthorizationInfo getAuthorizationInfo(Response<String> response) throws AuthorizationException {
+	private @NonNull AuthorizationInfo getAuthorizationInfo(Response<ResponseBody> response) throws AuthorizationException {
 		if (response.isSuccess()) {
 			String csrfToken = null;
 			HttpCookie cookie = null;
 
-			Document document = Jsoup.parse(response.body());
+			Document document = null;
+			try {
+				document = Jsoup.parse(response.body().string());
+			} catch (IOException e) {
+				throw new AuthorizationException("Failed to parse login page", e);
+			}
+
 			Elements elements = document.getElementsByTag("meta");
 			for (Element element : elements) {
 				if (element.attr("name").equals(CSRF_TOKEN)) {
@@ -92,7 +107,7 @@ public class AuthorizationManager {
 			}
 
 			String cookieValue = response.headers().get("Set-Cookie");
-			if (TextUtils.isEmpty(cookieValue)) {
+			if (!TextUtils.isEmpty(cookieValue)) {
 				cookie = new HttpCookie("_fabric_session", cookieValue);
 			}
 
@@ -103,7 +118,8 @@ public class AuthorizationManager {
 			if (cookie == null) {
 				throw new AuthorizationException("Failed to get cookie");
 			}
-
+			Log.i(LOG_TAG, "Got CRSF token " + csrfToken);
+			Log.i(LOG_TAG, "Got Cookie " + cookie.getValue());
 			return new AuthorizationInfo(cookie, csrfToken);
 		} else {
 			throw new AuthorizationException("Failed to get authorization page");
@@ -112,7 +128,11 @@ public class AuthorizationManager {
 
 	private @NonNull User getUserFromAuthorizationInfo(String email, String password, AuthorizationInfo authorizationInfo) throws AuthorizationException {
 		try {
-			return fabricService.getUser(email, password, authorizationInfo.cookie.getValue(), authorizationInfo.csrfToken).toBlocking().first();
+			User user = fabricService.getUser(email, password, authorizationInfo.cookie.getValue(), authorizationInfo.csrfToken).toBlocking().first();
+			if (user != null) {
+				Log.i(LOG_TAG, "Got user " + user.getName());
+			}
+			return user;
 		} catch (NoSuchElementException e) {
 			throw new AuthorizationException("Failed to get user", e);
 		}

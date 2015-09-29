@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.nemezis.cloth.App;
 import com.nemezis.cloth.R;
+import com.nemezis.cloth.di.component.ApplicationComponent;
 import com.nemezis.cloth.manager.AuthorizationManager;
 import com.nemezis.cloth.model.User;
 import com.nemezis.cloth.mvpview.LoginMvpView;
@@ -19,15 +20,11 @@ import rx.schedulers.Schedulers;
  * Created by Dmitry Kostyrev on 29/09/15
  */
 public class LoginPresenter extends Presenter<LoginMvpView> {
-
-	@Inject
-	App app;
-	@Inject
-	AuthorizationManager authorizationManager;
-
 	private Subscription subscription;
+	@Inject AuthorizationManager authorizationManager;
 
-	public LoginPresenter() {
+	public LoginPresenter(ApplicationComponent applicationContext) {
+		applicationContext.inject(this);
 	}
 
 	@Override
@@ -46,8 +43,8 @@ public class LoginPresenter extends Presenter<LoginMvpView> {
 	public void signIn(@NonNull String email, @NonNull String password) {
 		view.showProgressDialog();
 		this.subscription = authorizationManager.login(email, password)
-				.observeOn(Schedulers.io())
-				.subscribeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(new Action1<User>() {
 					@Override
 					public void call(User user) {
@@ -55,7 +52,8 @@ public class LoginPresenter extends Presenter<LoginMvpView> {
 					}
 				}, new Action1<Throwable>() {
 					@Override
-					public void call(Throwable throwable) {
+					public void call(Throwable t) {
+						t.printStackTrace();
 						view.hideProgressDialog();
 						view.showErrorMessage(R.string.failed_to_authorize);
 					}
