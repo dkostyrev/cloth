@@ -3,6 +3,7 @@ package com.nemezis.cloth.service;
 import com.nemezis.cloth.model.User;
 import com.squareup.okhttp.ResponseBody;
 
+import retrofit.Call;
 import retrofit.Response;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -23,5 +24,5 @@ public interface FabricService {
 
 	@FormUrlEncoded
 	@POST("api/v2/session")
-	User getUser(@Field("email") String email, @Field("password") String password, @Header("Cookie") String cookie, @Header("X-CSRF-Token") String csrfToken);
+    Observable<User> getUser(@Field("email") String email, @Field("password") String password, @Header("X-CSRF-Token") String csrfToken);
 }

@@ -3,6 +3,7 @@ package com.nemezis.cloth.di.module;
 import android.content.Context;
 
 import com.nemezis.cloth.App;
+import com.nemezis.cloth.di.PerApplication;
 
 import javax.inject.Singleton;
 
@@ -22,7 +23,7 @@ public class AppModule {
 	}
 
 	@Provides
-	@Singleton
+    @PerApplication
 	App provideApplicationContext() {
 		return app;
 	}
