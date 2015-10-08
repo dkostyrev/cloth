@@ -23,5 +23,5 @@ public interface FabricService {
 
 	@FormUrlEncoded
 	@POST("api/v2/session")
-	Observable<User> getUser(@Field("email") String email, @Field("password") String password, @Header("Cookie") String cookie, @Header("X-CSRF-Token") String csrfToken);
+	User getUser(@Field("email") String email, @Field("password") String password, @Header("Cookie") String cookie, @Header("X-CSRF-Token") String csrfToken);
 }

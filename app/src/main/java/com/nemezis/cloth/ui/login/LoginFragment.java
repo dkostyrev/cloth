@@ -53,11 +53,6 @@ public class LoginFragment extends BaseFragment<LoginActivityComponent> implemen
 		return inflater.inflate(R.layout.login_fragment, container, false);
 	}
 
-//	@Override
-//	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//		super.onActivityCreated(savedInstanceState);
-//	}
-
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);

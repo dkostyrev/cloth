@@ -31,4 +31,12 @@ public class User {
 	public String getToken() {
 		return token;
 	}
+
+    public Organization getCurrentOrganization() {
+        return currentOrganization;
+    }
+
+    public List<Organization> getOrganizations() {
+        return organizations;
+    }
 }
