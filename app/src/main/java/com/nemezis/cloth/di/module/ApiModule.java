@@ -29,13 +29,13 @@ public class ApiModule {
 
     @Provides
     @PerApplication
-    SessionCookieHandler provideSessionCookieHandler(App applicationContext) {
+    public SessionCookieHandler provideSessionCookieHandler(App applicationContext) {
         return new SessionCookieHandler(applicationContext);
     }
 
     @Provides
     @PerApplication
-	OkHttpClient provideOkHttpClient(SessionCookieHandler sessionCookieHandler) {
+    public OkHttpClient provideOkHttpClient(SessionCookieHandler sessionCookieHandler) {
 		OkHttpClient okHttpClient = new OkHttpClient();
         okHttpClient.setConnectTimeout(60, TimeUnit.SECONDS);
         okHttpClient.setReadTimeout(60, TimeUnit.SECONDS);
@@ -45,7 +45,7 @@ public class ApiModule {
 
 	@Provides
     @PerApplication
-	Retrofit provideRetrofit(OkHttpClient okHttpClient) {
+    public Retrofit provideRetrofit(OkHttpClient okHttpClient) {
 		return new Retrofit.Builder()
 				.baseUrl(FabricService.BASE_URL)
 				.client(okHttpClient)
@@ -56,7 +56,7 @@ public class ApiModule {
 
 	@Provides
     @PerApplication
-	FabricService provideFabricService(Retrofit retrofit) {
+    public FabricService provideFabricService(Retrofit retrofit) {
 		return retrofit.create(FabricService.class);
 	}
 }

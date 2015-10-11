@@ -18,7 +18,7 @@ public class ManagerModule {
 
 	@Provides
     @PerApplication
-    AuthorizationManager provideAuthorizationManager(App applicationContext) {
+    public AuthorizationManager provideAuthorizationManager(App applicationContext) {
 		return new AuthorizationManager(applicationContext);
 	}
 }

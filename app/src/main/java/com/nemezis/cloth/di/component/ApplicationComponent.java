@@ -7,6 +7,7 @@ import com.nemezis.cloth.di.module.GsonModule;
 import com.nemezis.cloth.di.module.ManagerModule;
 import com.nemezis.cloth.manager.AuthorizationManager;
 import com.nemezis.cloth.presenter.LoginPresenter;
+import com.nemezis.cloth.presenter.LoginPresenterImpl;
 import com.nemezis.cloth.ui.login.LoginActivity;
 
 import dagger.Component;
@@ -16,13 +17,15 @@ import dagger.Component;
  */
 @PerApplication
 @Component(modules = {
-		AppModule.class,
-		ApiModule.class,
-		ManagerModule.class,
+        AppModule.class,
+        ApiModule.class,
+        ManagerModule.class,
         GsonModule.class
 })
 public interface ApplicationComponent {
-	void inject(LoginActivity loginActivity);
-	void inject(AuthorizationManager authorizationManager);
-	void inject(LoginPresenter loginPresenter);
+    void inject(LoginActivity loginActivity);
+
+    void inject(AuthorizationManager authorizationManager);
+
+    void inject(LoginPresenterImpl loginPresenter);
 }

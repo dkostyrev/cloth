@@ -72,7 +72,6 @@ public class AuthorizationManager {
         AuthorizationInfo getAuthorizationInfo(Response<ResponseBody> response) {
             if (response.isSuccess()) {
                 String csrfToken = null;
-                HttpCookie cookie = null;
 
                 Document document;
                 try {
