@@ -1,8 +1,8 @@
 package com.nemezis.cloth.di.module;
 
-import com.nemezis.cloth.App;
 import com.nemezis.cloth.di.component.ApplicationComponent;
 import com.nemezis.cloth.presenter.LoginPresenter;
+import com.nemezis.cloth.presenter.LoginPresenterImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -19,7 +19,7 @@ public class LoginActivityModule {
 	}
 
 	@Provides
-	LoginPresenter provideLoginPresenter() {
-		return new LoginPresenter(applicationComponent);
+    LoginPresenter provideLoginPresenter() {
+		return new LoginPresenterImpl(applicationComponent);
 	}
 }

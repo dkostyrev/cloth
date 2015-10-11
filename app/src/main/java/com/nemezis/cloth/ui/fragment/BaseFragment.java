@@ -7,9 +7,9 @@ import com.nemezis.cloth.ui.activity.BaseActivity;
 /**
  * Created by Dmitry Kostyrev on 29/09/15
  */
-public abstract class BaseFragment<T> extends Fragment {
+public abstract class BaseFragment<Component> extends Fragment {
 
-	protected T getActivityComponent() {
-		return ((BaseActivity<T>) getActivity()).getComponent();
+	protected Component getActivityComponent() {
+		return ((BaseActivity<Component>) getActivity()).getComponent();
 	}
 }

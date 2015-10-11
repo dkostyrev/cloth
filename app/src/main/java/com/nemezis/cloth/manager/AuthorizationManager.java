@@ -44,7 +44,7 @@ public class AuthorizationManager {
 		}
 	}
 
-	@Inject
+    @Inject
 	FabricService fabricService;
     @Inject
     SessionCookieHandler sessionCookieHandler;

@@ -1,11 +1,11 @@
-package com.nemezis.cloth.mvpview;
+package com.nemezis.cloth.view;
 
 import android.support.annotation.StringRes;
 
 /**
  * Created by Dmitry Kostyrev on 29/09/15
  */
-public interface LoginMvpView extends MvpView {
+public interface LoginView extends IView {
 
 	void showProgressDialog();
 	void hideProgressDialog();
