@@ -27,7 +27,9 @@ import rx.plugins.RxJavaSchedulersHookResetRule;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -54,6 +56,44 @@ public class LoginPresenterTest {
         authorizationManager = mock(AuthorizationManager.class);
         loginPresenter = new LoginPresenterImpl(testApplicationComponent);
         loginPresenter.attachView(loginView);
+    }
+
+    @Test public void testEmptyEmail() {
+        loginPresenter.signIn("", "not_empty_password");
+        verify(loginView).showEmailErrorMessage(R.string.email_is_required);
+        verify(authorizationManager, never()).login(anyString(), anyString());
+    }
+
+    @Test public void testEmptyPassword() {
+        loginPresenter.signIn("some@email.com", "");
+        verify(loginView).showPasswordErrorMessage(R.string.password_is_required);
+        verify(authorizationManager, never()).login(anyString(), anyString());
+    }
+
+    @Test public void testEmptyEmailAndPassword() {
+        loginPresenter.signIn("", "");
+        verify(loginView).showEmailErrorMessage(R.string.email_is_required);
+        verify(loginView).showPasswordErrorMessage(R.string.password_is_required);
+        verify(authorizationManager, never()).login(anyString(), anyString());
+    }
+
+    @Test public void testEmailNotValid() {
+        loginPresenter.signIn("invalid.email.com", "not_empty_password");
+        verify(loginView).showEmailErrorMessage(R.string.email_is_not_valid);
+        verify(authorizationManager, never()).login(anyString(), anyString());
+    }
+
+    @Test public void testSignInButtonState() {
+        verify(loginView).setSignInButtonEnabled(eq(false));
+        loginPresenter.onEmailChanged("e");
+        verify(loginView, atMost(2)).setSignInButtonEnabled(eq(false));
+        loginPresenter.onPasswordChanged("p");
+        verify(loginView, atMost(3)).setSignInButtonEnabled(eq(true));
+        loginPresenter.onEmailChanged("");
+        verify(loginView, atMost(4)).setSignInButtonEnabled(eq(false));
+        loginPresenter.onEmailChanged("a");
+        loginPresenter.onPasswordChanged("");
+        verify(loginView, atMost(5)).setSignInButtonEnabled(eq(false));
     }
 
     @Test public void testCorrectAuthorization() {

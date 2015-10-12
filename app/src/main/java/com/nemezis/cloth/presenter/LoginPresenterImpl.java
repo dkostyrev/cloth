@@ -1,11 +1,13 @@
 package com.nemezis.cloth.presenter;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.nemezis.cloth.R;
 import com.nemezis.cloth.di.component.ApplicationComponent;
 import com.nemezis.cloth.manager.AuthorizationManager;
 import com.nemezis.cloth.model.User;
+import com.nemezis.cloth.utils.UiUtils;
 import com.nemezis.cloth.view.LoginView;
 
 import javax.inject.Inject;
@@ -22,6 +24,9 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
 	private Subscription subscription;
 	@Inject AuthorizationManager authorizationManager;
 
+    private boolean emailEmpty;
+    private boolean passwordEmpty;
+
 	public LoginPresenterImpl(ApplicationComponent applicationContext) {
 		applicationContext.inject(this);
 	}
@@ -29,6 +34,7 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
 	@Override
 	public void attachView(LoginView view) {
 		super.attachView(view);
+        view.setSignInButtonEnabled(false);
 	}
 
     @Override
@@ -40,28 +46,55 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
 	}
 
 	public void signIn(@NonNull String email, @NonNull String password) {
-		view.showProgressDialog();
-		this.subscription = authorizationManager.login(email, password)
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Action1<User>() {
-					@Override
-					public void call(User user) {
-						view.hideProgressDialog();
-					}
-				}, new Action1<Throwable>() {
-					@Override
-					public void call(Throwable t) {
-						t.printStackTrace();
-						view.hideProgressDialog();
-						view.showErrorMessage(R.string.failed_to_authorize);
-					}
-				});
+        emailEmpty = TextUtils.isEmpty(email);
+        passwordEmpty = TextUtils.isEmpty(password);
+        boolean emailIsValid = !emailEmpty && UiUtils.isEmailValid(email);
+        if (emailEmpty) {
+            view.showEmailErrorMessage(R.string.email_is_required);
+        } else if (!emailIsValid) {
+            view.showEmailErrorMessage(R.string.email_is_not_valid);
+        }
+
+        if (passwordEmpty) {
+            view.showPasswordErrorMessage(R.string.password_is_required);
+        }
+
+        if (!emailEmpty && !passwordEmpty && emailIsValid) {
+            authorize(email, password);
+        }
 	}
 
-	public void onEmailChanged(@NonNull String email) {
+    public void onEmailChanged(@NonNull String email) {
+        emailEmpty = TextUtils.isEmpty(email);
+        updateLoginButtonState();
 	}
 
-	public void onPasswordChanged(@NonNull String email) {
+	public void onPasswordChanged(@NonNull String password) {
+        passwordEmpty = TextUtils.isEmpty(password);
+        updateLoginButtonState();
 	}
+
+    private void authorize(@NonNull String email, @NonNull String password) {
+        view.showProgressDialog();
+        this.subscription = authorizationManager.login(email, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<User>() {
+                    @Override
+                    public void call(User user) {
+                        view.hideProgressDialog();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable t) {
+                        t.printStackTrace();
+                        view.hideProgressDialog();
+                        view.showErrorMessage(R.string.failed_to_authorize);
+                    }
+                });
+    }
+
+    private void updateLoginButtonState() {
+        view.setSignInButtonEnabled(!emailEmpty && !passwordEmpty);
+    }
 }

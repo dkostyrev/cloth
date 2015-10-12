@@ -112,6 +112,16 @@ public class LoginFragment extends BaseFragment<LoginActivityComponent> implemen
     }
 
     @Override
+    public void showEmailErrorMessage(@StringRes int errorMessage) {
+        emailTextInputLayout.setError(getString(errorMessage));
+    }
+
+    @Override
+    public void showPasswordErrorMessage(@StringRes int errorMessage) {
+        passwordTextInputLayout.setError(getString(errorMessage));
+    }
+
+    @Override
     public Context getContext() {
         return getActivity();
     }

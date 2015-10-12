@@ -11,5 +11,6 @@ public interface LoginView extends IView {
 	void hideProgressDialog();
 	void showErrorMessage(@StringRes int errorMessage);
 	void setSignInButtonEnabled(boolean enabled);
-
+    void showEmailErrorMessage(@StringRes int errorMessage);
+    void showPasswordErrorMessage(@StringRes int errorMessage);
 }
