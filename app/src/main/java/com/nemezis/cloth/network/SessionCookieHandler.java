@@ -38,7 +38,7 @@ public class SessionCookieHandler extends CookieHandler {
     }
 
     public Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders) throws IOException {
-        if (!cookie.isEmpty()) {
+        if (!cookie.isEmpty() || sharedPreferences.contains(SHARED_PREF_COOKIE)) {
             Map<String, List<String>> headers = new HashMap<>(requestHeaders);
             headers.put(COOKIE, cookie);
             return Collections.unmodifiableMap(headers);

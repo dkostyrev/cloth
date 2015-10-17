@@ -17,6 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.io.IOException;
@@ -33,8 +34,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(sdk = 21, constants = BuildConfig.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = 21, constants = BuildConfig.class, manifest = Config.NONE)
 public class LoginPresenterTest {
 
     @Rule public RxJavaSchedulersHookResetRule rxJavaSchedulersHookResetRule = new RxJavaSchedulersHookResetRule();

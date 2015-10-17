@@ -22,7 +22,6 @@ import org.robolectric.annotation.Config;
 
 import java.io.IOException;
 
-import okio.Buffer;
 import okio.BufferedSource;
 import retrofit.Response;
 import retrofit.Retrofit;
