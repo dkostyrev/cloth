@@ -7,6 +7,7 @@ import com.nemezis.cloth.R;
 import com.nemezis.cloth.di.component.ApplicationComponent;
 import com.nemezis.cloth.manager.AuthorizationManager;
 import com.nemezis.cloth.model.User;
+import com.nemezis.cloth.utils.ObservableUtils;
 import com.nemezis.cloth.utils.UiUtils;
 import com.nemezis.cloth.view.LoginView;
 
@@ -77,8 +78,7 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
     private void authorize(@NonNull String email, @NonNull String password) {
         view.showProgressDialog();
         this.subscription = authorizationManager.login(email, password)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(ObservableUtils.<User>schedulers())
                 .subscribe(new Action1<User>() {
                     @Override
                     public void call(User user) {

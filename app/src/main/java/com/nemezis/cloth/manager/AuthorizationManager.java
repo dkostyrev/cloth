@@ -16,7 +16,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.HttpCookie;
 
 import javax.inject.Inject;
 
@@ -93,7 +92,7 @@ public class AuthorizationManager {
                 Log.i(LOG_TAG, "Got CRSF token " + csrfToken);
                 return new AuthorizationInfo(csrfToken);
             } else {
-                throw new AuthorizationException("Failed to get authorization page");
+                throw new AuthorizationException("Failed to get login page");
             }
         }
     }

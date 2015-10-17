@@ -41,13 +41,12 @@ public class LoginPresenterTest {
 
     LoginPresenter loginPresenter;
     AuthorizationManager authorizationManager;
-    ApplicationComponent testApplicationComponent;
     LoginView loginView;
     SessionCookieHandler sessionCookieHandler;
 
     @Before  public void setUp() throws IOException {
         sessionCookieHandler = mock(SessionCookieHandler.class);
-        testApplicationComponent = DaggerApplicationComponent.builder()
+        ApplicationComponent testApplicationComponent = DaggerApplicationComponent.builder()
                 .appModule(new AppModule(mock(App.class)))
                 .managerModule(new TestManagerModule())
                 .build();
