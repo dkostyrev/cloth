@@ -12,9 +12,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by Dmitry Kostyrev on 27/09/15
  */
-public abstract class BaseActivity<T> extends AppCompatActivity {
+public abstract class BaseActivity<ActivityComponent> extends AppCompatActivity {
 
-	private T component;
+	private ActivityComponent component;
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -27,11 +27,11 @@ public abstract class BaseActivity<T> extends AppCompatActivity {
 		component = setupComponent(getApp().getApplicationComponent());
 	}
 
-	public T getComponent() {
+	public ActivityComponent getComponent() {
 		return component;
 	}
 
-	protected abstract T setupComponent(ApplicationComponent applicationComponent);
+	protected abstract ActivityComponent setupComponent(ApplicationComponent applicationComponent);
 	protected final App getApp() {
 		return (App) getApplication();
 	}

@@ -2,6 +2,7 @@ package com.nemezis.cloth.ui.login;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -16,6 +17,7 @@ import com.nemezis.cloth.R;
 import com.nemezis.cloth.di.component.LoginActivityComponent;
 import com.nemezis.cloth.presenter.LoginPresenter;
 import com.nemezis.cloth.presenter.LoginPresenterImpl;
+import com.nemezis.cloth.ui.activity.MainActivity;
 import com.nemezis.cloth.view.LoginView;
 import com.nemezis.cloth.ui.fragment.BaseFragment;
 
@@ -119,6 +121,11 @@ public class LoginFragment extends BaseFragment<LoginActivityComponent> implemen
     @Override
     public void showPasswordErrorMessage(@StringRes int errorMessage) {
         passwordTextInputLayout.setError(getString(errorMessage));
+    }
+
+    @Override
+    public void startMainActivity() {
+        startActivity(new Intent(getActivity(), MainActivity.class));
     }
 
     @Override

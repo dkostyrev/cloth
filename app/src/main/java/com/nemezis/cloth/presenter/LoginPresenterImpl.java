@@ -79,22 +79,28 @@ public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements 
         view.showProgressDialog();
         this.subscription = authorizationManager.login(email, password)
                 .compose(ObservableUtils.<User>schedulers())
-                .subscribe(new Action1<User>() {
-                    @Override
-                    public void call(User user) {
-                        view.hideProgressDialog();
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable t) {
-                        t.printStackTrace();
-                        view.hideProgressDialog();
-                        view.showErrorMessage(R.string.failed_to_authorize);
-                    }
-                });
+                .subscribe(onNext, onError);
     }
 
     private void updateLoginButtonState() {
         view.setSignInButtonEnabled(!emailEmpty && !passwordEmpty);
     }
+
+    private Action1<User> onNext = new Action1<User>() {
+        @Override public void call(User user) {
+            view.hideProgressDialog();
+            view.startMainActivity();
+        }
+    };
+
+    private Action1<Throwable> onError = new Action1<Throwable>() {
+        @Override
+        public void call(Throwable t) {
+            t.printStackTrace();
+            view.hideProgressDialog();
+            view.showErrorMessage(R.string.failed_to_authorize);
+        }
+    };
+
+
 }

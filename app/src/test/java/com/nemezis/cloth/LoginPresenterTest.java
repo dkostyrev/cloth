@@ -103,6 +103,7 @@ public class LoginPresenterTest {
         loginPresenter.signIn("correct@email.com", "not_empty_password");
         verify(loginView).showProgressDialog();
         verify(loginView).hideProgressDialog();
+        verify(loginView).startMainActivity();
     }
 
     @Test public void testIncorrectAuthorization() {

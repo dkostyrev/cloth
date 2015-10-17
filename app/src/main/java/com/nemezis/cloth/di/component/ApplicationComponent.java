@@ -5,7 +5,10 @@ import com.nemezis.cloth.di.module.ApiModule;
 import com.nemezis.cloth.di.module.AppModule;
 import com.nemezis.cloth.di.module.GsonModule;
 import com.nemezis.cloth.di.module.ManagerModule;
+import com.nemezis.cloth.manager.ApplicationsManager;
 import com.nemezis.cloth.manager.AuthorizationManager;
+import com.nemezis.cloth.presenter.ApplicationsPresenter;
+import com.nemezis.cloth.presenter.ApplicationsPresenterImpl;
 import com.nemezis.cloth.presenter.LoginPresenter;
 import com.nemezis.cloth.presenter.LoginPresenterImpl;
 import com.nemezis.cloth.ui.login.LoginActivity;
@@ -28,4 +31,8 @@ public interface ApplicationComponent {
     void inject(AuthorizationManager authorizationManager);
 
     void inject(LoginPresenterImpl loginPresenter);
+
+    void inject(ApplicationsPresenterImpl applicationsPresenter);
+
+    void inject(ApplicationsManager applicationsManager);
 }

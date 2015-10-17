@@ -13,4 +13,5 @@ public interface LoginView extends IView {
 	void setSignInButtonEnabled(boolean enabled);
     void showEmailErrorMessage(@StringRes int errorMessage);
     void showPasswordErrorMessage(@StringRes int errorMessage);
+    void startMainActivity();
 }
