@@ -7,6 +7,7 @@ import com.nemezis.cloth.di.module.GsonModule;
 import com.nemezis.cloth.di.module.ManagerModule;
 import com.nemezis.cloth.manager.ApplicationsManager;
 import com.nemezis.cloth.manager.AuthorizationManager;
+import com.nemezis.cloth.manager.UserManager;
 import com.nemezis.cloth.presenter.ApplicationsPresenter;
 import com.nemezis.cloth.presenter.ApplicationsPresenterImpl;
 import com.nemezis.cloth.presenter.LoginPresenter;
@@ -35,4 +36,6 @@ public interface ApplicationComponent {
     void inject(ApplicationsPresenterImpl applicationsPresenter);
 
     void inject(ApplicationsManager applicationsManager);
+
+    void inject(UserManager userManager);
 }

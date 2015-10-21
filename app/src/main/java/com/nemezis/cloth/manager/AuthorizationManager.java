@@ -21,6 +21,7 @@ import javax.inject.Inject;
 
 import retrofit.Response;
 import rx.Observable;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -28,36 +29,42 @@ import rx.functions.Func1;
  */
 public class AuthorizationManager {
 
-	private static final String LOG_TAG = "AuthorizationManager";
-	private static final String CSRF_TOKEN = "csrf-token";
-	private static final String CONTENT = "content";
+    private static final String LOG_TAG = "AuthorizationManager";
+    private static final String CSRF_TOKEN = "csrf-token";
+    private static final String CONTENT = "content";
 
-	public static class AuthorizationException extends RuntimeException {
+    public static class AuthorizationException extends RuntimeException {
 
-		public AuthorizationException(String detailMessage) {
-			super(detailMessage);
-		}
+        public AuthorizationException(String detailMessage) {
+            super(detailMessage);
+        }
 
-		public AuthorizationException(String detailMessage, Throwable throwable) {
-			super(detailMessage, throwable);
-		}
-	}
+        public AuthorizationException(String detailMessage, Throwable throwable) {
+            super(detailMessage, throwable);
+        }
+    }
 
-    @Inject
-	FabricService fabricService;
-    @Inject
-    SessionCookieHandler sessionCookieHandler;
+    @Inject FabricService fabricService;
+    @Inject SessionCookieHandler sessionCookieHandler;
+    @Inject DatabaseManager databaseManager;
+    @Inject UserManager userManager;
 
-	public AuthorizationManager(App context) {
-		context.getApplicationComponent().inject(this);
-	}
+    public AuthorizationManager(App context) {
+        context.getApplicationComponent().inject(this);
+    }
 
-	public Observable<User> login(String email, String password) {
+    public Observable<User> login(String email, String password) {
+        userManager.logOut();
         sessionCookieHandler.eraseCookie();
-		return fabricService.getLoginPage()
-				.map(new AuthorizationInfoFromResponse())
-				.map(new UserFromAuthorizationInfo(email, password));
-	}
+        return fabricService.getLoginPage()
+                .map(new AuthorizationInfoFromResponse())
+                .map(new UserFromAuthorizationInfo(email, password))
+                .doOnNext(new Action1<User>() {
+                    @Override public void call(User user) {
+                        userManager.logIn(user);
+                    }
+                });
+    }
 
     @WorkerThread
     private class AuthorizationInfoFromResponse implements Func1<Response<ResponseBody>, AuthorizationInfo> {
@@ -67,8 +74,7 @@ public class AuthorizationManager {
             return getAuthorizationInfo(responseBodyResponse);
         }
 
-        private @NonNull
-        AuthorizationInfo getAuthorizationInfo(Response<ResponseBody> response) {
+        private @NonNull AuthorizationInfo getAuthorizationInfo(Response<ResponseBody> response) {
             if (response.isSuccess()) {
                 String csrfToken = null;
 
@@ -113,8 +119,7 @@ public class AuthorizationManager {
             return getUserFromAuthorizationInfo(authorizationInfo);
         }
 
-        private @NonNull
-        User getUserFromAuthorizationInfo(AuthorizationInfo authorizationInfo) throws AuthorizationException {
+        private @NonNull User getUserFromAuthorizationInfo(AuthorizationInfo authorizationInfo) throws AuthorizationException {
             Observable<User> observable = fabricService.getUser(email, password, authorizationInfo.csrfToken);
             User user = observable.toBlocking().first();
             if (user != null) {
