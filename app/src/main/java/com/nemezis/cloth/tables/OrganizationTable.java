@@ -12,10 +12,11 @@ public class OrganizationTable {
     public static final String API_KEY = "api_key";
 
     public static String getCreateTableQuery() {
-        return "CREATE TABLE IF NOT EXISTS '" + TABLE + "' "
+        return "CREATE TABLE IF NOT EXISTS '" + TABLE + "' ("
                 + ID + " TEXT PRIMARY KEY,"
                 + ALIAS + " TEXT,"
                 + NAME + " TEXT,"
-                + API_KEY + " TEXT";
+                + API_KEY + " TEXT"
+                + ")";
     }
 }

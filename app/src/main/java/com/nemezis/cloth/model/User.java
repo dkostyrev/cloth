@@ -2,6 +2,7 @@ package com.nemezis.cloth.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,11 @@ public class User {
 	private Organization currentOrganization;
 	private List<Organization> organizations;
 
-	public String getName() {
+    public User() {
+        organizations = new ArrayList<>();
+    }
+
+    public String getName() {
 		return name;
 	}
 
@@ -38,5 +43,29 @@ public class User {
 
     public List<Organization> getOrganizations() {
         return organizations;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setCurrentOrganization(Organization currentOrganization) {
+        this.currentOrganization = currentOrganization;
+    }
+
+    public void setOrganizations(List<Organization> organizations) {
+        this.organizations = organizations;
     }
 }

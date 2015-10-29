@@ -23,7 +23,7 @@ public class ApplicationTable {
     public static final String ACCOUNTS_COUNT = "accounts_count";
 
     public static String getCreateTableQuery() {
-        return "CREATE TABLE IF NOT EXISTS '" + TABLE + "' "
+        return "CREATE TABLE IF NOT EXISTS '" + TABLE + "' ("
                 + ID + " TEXT PRIMARY KEY,"
                 + NAME + " TEXT,"
                 + BUNDLE_IDENTIFIER + " TEXT,"
@@ -38,6 +38,7 @@ public class ApplicationTable {
                 + IMPACTED_DEVICES_COUNT + " INTEGER,"
                 + UNRESOLVED_ISSUES_COUNT + " INTEGER,"
                 + CRASHES_COUNT + " INTEGER,"
-                + ACCOUNTS_COUNT + " INTEGER";
+                + ACCOUNTS_COUNT + " INTEGER"
+                + ")";
     }
 }

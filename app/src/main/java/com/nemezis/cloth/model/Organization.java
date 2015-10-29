@@ -12,7 +12,14 @@ public class Organization {
 	@SerializedName("api_key")
 	private String apiKey;
 
-	public String getId() {
+    public Organization() {
+    }
+
+    public Organization(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
 		return id;
 	}
 
@@ -27,4 +34,8 @@ public class Organization {
 	public String getApiKey() {
 		return apiKey;
 	}
+
+    public boolean fetchNeeded() {
+        return alias == null && name == null && apiKey == null;
+    }
 }

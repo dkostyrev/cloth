@@ -14,12 +14,13 @@ public class UserTable {
     public static final String ORGANIZATIONS = "organizations";
 
     public static String getCreateTableQuery() {
-        return "CREATE TABLE IF NOT EXISTS '" + TABLE + "' "
+        return "CREATE TABLE IF NOT EXISTS '" + TABLE + "' ("
                 + ID + " TEXT PRIMARY KEY,"
                 + NAME + " TEXT,"
                 + EMAIL + " TEXT,"
                 + TOKEN + " TEXT,"
                 + CURRENT_ORGANIZATION + " TEXT,"
-                + ORGANIZATIONS + " TEXT";
+                + ORGANIZATIONS + " TEXT"
+                + ")";
     }
 }
