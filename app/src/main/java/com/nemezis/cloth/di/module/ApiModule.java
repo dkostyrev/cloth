@@ -52,6 +52,7 @@ public class ApiModule {
 				.client(okHttpClient)
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 				.addConverterFactory(GsonConverterFactory.create(gson))
+                .validateEagerly()
 				.build();
 	}
 

@@ -5,12 +5,15 @@ import com.nemezis.cloth.model.Application;
 import com.nemezis.cloth.model.User;
 import com.squareup.okhttp.ResponseBody;
 
+import java.util.List;
+
 import retrofit.Response;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
+import retrofit.http.Query;
 import rx.Observable;
 
 /**
@@ -28,5 +31,5 @@ public interface FabricService {
     Observable<User> getUser(@Field("email") String email, @Field("password") String password, @Header("X-CSRF-Token") String csrfToken);
 
     @GET("api/v2/apps")
-    Observable<Application> getApps(@Field("include_metrics") boolean includeMetrics);
+    Observable<List<Application>> getApps(@Query("include_metrics") boolean includeMetrics);
 }

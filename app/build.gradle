@@ -33,9 +33,11 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+
     compile 'com.pushtorefresh.storio:sqlite:1.4.0'
     compile 'com.pushtorefresh.storio:sqlite-annotations:1.4.0'
-    apt 'com.pushtorefresh.storio:sqlite-annotations:1.4.0'
+    apt 'com.pushtorefresh.storio:sqlite-annotations-processor:1.4.0'
+    
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile('com.afollestad.material-dialogs:core:0.8.1.0@aar') {
         transitive = true

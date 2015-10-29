@@ -7,8 +7,10 @@ import android.support.annotation.WorkerThread;
 import android.util.Log;
 
 import com.nemezis.cloth.App;
+import com.nemezis.cloth.model.Application;
 import com.nemezis.cloth.model.User;
 import com.nemezis.cloth.storio.SQLiteOpenHelperImpl;
+import com.nemezis.cloth.storio.TypeMappings;
 import com.nemezis.cloth.storio.UserTypeMapping;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio.sqlite.impl.DefaultStorIOSQLite;
@@ -44,6 +46,7 @@ public class DatabaseManager {
         storIOSQLite = DefaultStorIOSQLite.builder()
                 .sqliteOpenHelper(sqLiteOpenHelper)
                 .addTypeMapping(User.class, UserTypeMapping.getTypeMapping())
+                .addTypeMapping(Application.class, TypeMappings.getApplicationSQLiteTypeMapping())
                 .build();
     }
 

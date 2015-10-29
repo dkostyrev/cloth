@@ -3,6 +3,7 @@ package com.nemezis.cloth.di.module;
 import com.nemezis.cloth.App;
 import com.nemezis.cloth.di.PerApplication;
 import com.nemezis.cloth.di.component.ApplicationComponent;
+import com.nemezis.cloth.manager.ApplicationsManager;
 import com.nemezis.cloth.manager.AuthorizationManager;
 import com.nemezis.cloth.manager.DatabaseManager;
 import com.nemezis.cloth.manager.UserManager;
@@ -34,5 +35,11 @@ public class ManagerModule {
     @PerApplication
     public UserManager provideUserManager(App app) {
         return new UserManager(app);
+    }
+
+    @Provides
+    @PerApplication
+    public ApplicationsManager provideApplicationsManager(App app) {
+        return new ApplicationsManager(app);
     }
 }
