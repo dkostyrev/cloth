@@ -17,6 +17,8 @@ import com.nemezis.cloth.ui.adapter.BaseAdapter;
 import com.nemezis.cloth.ui.fragment.BaseFragment;
 import com.nemezis.cloth.view.ApplicationsView;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
@@ -25,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Dmitry Kostyrev on 08/10/15
  */
-public class ApplicationsFragment extends BaseFragment<MainActivityComponent> implements ApplicationsView {
+public class ApplicationsFragment extends BaseFragment<MainActivityComponent> implements ApplicationsView, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     ApplicationsPresenter applicationsPresenter;
@@ -49,11 +51,21 @@ public class ApplicationsFragment extends BaseFragment<MainActivityComponent> im
         ButterKnife.bind(this, view);
         getActivityComponent().inject(this);
 
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         applicationsAdapter = new BaseAdapter<>(ApplicationViewHolder.class, R.layout.application_item);
         recyclerView.setAdapter(applicationsAdapter);
 
         applicationsPresenter.attachView(this);
+    }
+
+    @Override public void displayApplications(List<Application> applications) {
+        applicationsAdapter.setItems(applications);
+    }
+
+    @Override public void onRefresh() {
+        applicationsPresenter.refreshApplications();
     }
 
     @Override

@@ -8,8 +8,6 @@ import com.nemezis.cloth.view.ApplicationsView;
  */
 public class ApplicationsPresenterImpl extends BasePresenterImpl<ApplicationsView> implements ApplicationsPresenter {
 
-
-
     public ApplicationsPresenterImpl(ApplicationComponent applicationComponent) {
         applicationComponent.inject(this);
     }
@@ -17,6 +15,10 @@ public class ApplicationsPresenterImpl extends BasePresenterImpl<ApplicationsVie
     @Override
     public void attachView(ApplicationsView view) {
         super.attachView(view);
+
+    }
+
+    @Override public void refreshApplications() {
 
     }
 }

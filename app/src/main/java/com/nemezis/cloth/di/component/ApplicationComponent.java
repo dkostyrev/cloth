@@ -4,6 +4,8 @@ import com.nemezis.cloth.di.PerApplication;
 import com.nemezis.cloth.di.module.ApiModule;
 import com.nemezis.cloth.di.module.AppModule;
 import com.nemezis.cloth.di.module.GsonModule;
+import com.nemezis.cloth.di.module.LoginActivityModule;
+import com.nemezis.cloth.di.module.MainActivityModule;
 import com.nemezis.cloth.di.module.ManagerModule;
 import com.nemezis.cloth.manager.ApplicationsManager;
 import com.nemezis.cloth.manager.AuthorizationManager;
@@ -27,6 +29,11 @@ import dagger.Component;
         GsonModule.class
 })
 public interface ApplicationComponent {
+
+    LoginActivityComponent plus(LoginActivityModule loginActivityModule);
+
+    MainActivityComponent plus(MainActivityModule mainActivityModule);
+
     void inject(LoginActivity loginActivity);
 
     void inject(AuthorizationManager authorizationManager);

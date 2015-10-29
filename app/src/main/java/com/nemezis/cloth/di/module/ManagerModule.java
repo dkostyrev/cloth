@@ -4,6 +4,8 @@ import com.nemezis.cloth.App;
 import com.nemezis.cloth.di.PerApplication;
 import com.nemezis.cloth.di.component.ApplicationComponent;
 import com.nemezis.cloth.manager.AuthorizationManager;
+import com.nemezis.cloth.manager.DatabaseManager;
+import com.nemezis.cloth.manager.UserManager;
 
 import javax.inject.Singleton;
 
@@ -18,7 +20,19 @@ public class ManagerModule {
 
 	@Provides
     @PerApplication
-    public AuthorizationManager provideAuthorizationManager(App applicationContext) {
-		return new AuthorizationManager(applicationContext);
+    public AuthorizationManager provideAuthorizationManager(App app) {
+		return new AuthorizationManager(app);
 	}
+
+    @Provides
+    @PerApplication
+    public DatabaseManager provideDatabaseManager(App app) {
+        return new DatabaseManager(app);
+    }
+
+    @Provides
+    @PerApplication
+    public UserManager provideUserManager(App app) {
+        return new UserManager(app);
+    }
 }

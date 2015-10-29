@@ -127,7 +127,7 @@ public class LoginPresenterTest {
 
         private class TestManagerModule extends ManagerModule {
         @Override
-        public AuthorizationManager provideAuthorizationManager(App applicationContext) {
+        public AuthorizationManager provideAuthorizationManager(App app) {
             return authorizationManager;
         }
     }

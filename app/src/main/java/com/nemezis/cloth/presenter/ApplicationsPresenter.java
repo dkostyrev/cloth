@@ -7,4 +7,5 @@ import com.nemezis.cloth.view.ApplicationsView;
  */
 public interface ApplicationsPresenter extends IPresenter<ApplicationsView> {
 
+    void refreshApplications();
 }

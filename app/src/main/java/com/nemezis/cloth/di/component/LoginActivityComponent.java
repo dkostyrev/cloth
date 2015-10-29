@@ -6,17 +6,15 @@ import com.nemezis.cloth.ui.login.LoginActivity;
 import com.nemezis.cloth.ui.login.LoginFragment;
 
 import dagger.Component;
+import dagger.Subcomponent;
 
 /**
  * Created by Dmitry Kostyrev on 29/09/15
  */
 
 @PerActivity
-@Component(
-		dependencies = ApplicationComponent.class,
-		modules = LoginActivityModule.class
-)
+@Subcomponent(modules = LoginActivityModule.class)
 public interface LoginActivityComponent {
-	void inject(LoginActivity loginActivity);
-	void inject(LoginFragment loginFragment);
+
+    void inject(LoginFragment loginFragment);
 }

@@ -1,5 +1,6 @@
 package com.nemezis.cloth.di.module;
 
+import com.google.gson.Gson;
 import com.nemezis.cloth.App;
 import com.nemezis.cloth.di.PerApplication;
 import com.nemezis.cloth.network.SessionCookieHandler;
@@ -45,12 +46,12 @@ public class ApiModule {
 
 	@Provides
     @PerApplication
-    public Retrofit provideRetrofit(OkHttpClient okHttpClient) {
+    public Retrofit provideRetrofit(OkHttpClient okHttpClient, Gson gson) {
 		return new Retrofit.Builder()
 				.baseUrl(FabricService.BASE_URL)
 				.client(okHttpClient)
 				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-				.addConverterFactory(GsonConverterFactory.create())
+				.addConverterFactory(GsonConverterFactory.create(gson))
 				.build();
 	}
 

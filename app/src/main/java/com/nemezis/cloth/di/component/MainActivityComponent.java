@@ -5,15 +5,13 @@ import com.nemezis.cloth.di.module.MainActivityModule;
 import com.nemezis.cloth.ui.applications.ApplicationsFragment;
 
 import dagger.Component;
+import dagger.Subcomponent;
 
 /**
  * Created by Dmitry Kostyrev on 08/10/15
  */
 @PerActivity
-@Component(
-        dependencies = ApplicationComponent.class,
-        modules = MainActivityModule.class
-)
+@Subcomponent(modules = MainActivityModule.class)
 public interface MainActivityComponent {
 
     void inject(ApplicationsFragment applicationsFragment);
