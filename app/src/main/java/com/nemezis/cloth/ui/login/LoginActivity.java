@@ -20,7 +20,6 @@ public class LoginActivity extends BaseActivity<LoginActivityComponent> {
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.container, new LoginFragment())
 				.commit();
-		getApp().getApplicationComponent().inject(this);
 	}
 
 	@Override

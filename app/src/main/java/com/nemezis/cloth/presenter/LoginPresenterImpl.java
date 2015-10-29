@@ -23,13 +23,13 @@ import rx.schedulers.Schedulers;
  */
 public class LoginPresenterImpl extends BasePresenterImpl<LoginView> implements LoginPresenter {
 	private Subscription subscription;
-	@Inject AuthorizationManager authorizationManager;
+	private AuthorizationManager authorizationManager;
 
     private boolean emailEmpty;
     private boolean passwordEmpty;
 
-	public LoginPresenterImpl(ApplicationComponent applicationContext) {
-		applicationContext.inject(this);
+	public LoginPresenterImpl(AuthorizationManager authorizationManager) {
+		this.authorizationManager = authorizationManager;
 	}
 
 	@Override

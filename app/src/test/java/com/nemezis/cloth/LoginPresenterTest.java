@@ -1,9 +1,5 @@
 package com.nemezis.cloth;
 
-import com.nemezis.cloth.di.component.ApplicationComponent;
-import com.nemezis.cloth.di.component.DaggerApplicationComponent;
-import com.nemezis.cloth.di.module.AppModule;
-import com.nemezis.cloth.di.module.ManagerModule;
 import com.nemezis.cloth.manager.AuthorizationManager;
 import com.nemezis.cloth.model.User;
 import com.nemezis.cloth.network.SessionCookieHandler;
@@ -16,7 +12,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -47,14 +42,9 @@ public class LoginPresenterTest {
 
     @Before  public void setUp() throws IOException {
         sessionCookieHandler = mock(SessionCookieHandler.class);
-        ApplicationComponent testApplicationComponent = DaggerApplicationComponent.builder()
-                .appModule(new AppModule(mock(App.class)))
-                .managerModule(new TestManagerModule())
-                .build();
-
         loginView = mock(LoginView.class);
         authorizationManager = mock(AuthorizationManager.class);
-        loginPresenter = new LoginPresenterImpl(testApplicationComponent);
+        loginPresenter = new LoginPresenterImpl(authorizationManager);
         loginPresenter.attachView(loginView);
     }
 
@@ -123,13 +113,6 @@ public class LoginPresenterTest {
 
     @After public void tearDown() {
         loginPresenter.detachView();
-    }
-
-        private class TestManagerModule extends ManagerModule {
-        @Override
-        public AuthorizationManager provideAuthorizationManager(App app) {
-            return authorizationManager;
-        }
     }
 
 }

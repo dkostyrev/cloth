@@ -8,8 +8,7 @@ import com.nemezis.cloth.view.ApplicationsView;
  */
 public class ApplicationsPresenterImpl extends BasePresenterImpl<ApplicationsView> implements ApplicationsPresenter {
 
-    public ApplicationsPresenterImpl(ApplicationComponent applicationComponent) {
-        applicationComponent.inject(this);
+    public ApplicationsPresenterImpl() {
     }
 
     @Override

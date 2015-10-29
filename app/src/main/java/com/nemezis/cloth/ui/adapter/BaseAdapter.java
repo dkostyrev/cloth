@@ -45,6 +45,7 @@ public class BaseAdapter<BaseVH extends BaseViewHolder<ItemType>, ItemType> exte
         layoutInflater = LayoutInflater.from(recyclerView.getContext());
     }
 
+    @SuppressWarnings("TryWithIdenticalCatches")
     @Override public BaseVH onCreateViewHolder(ViewGroup parent, int viewType) {
         try {
             return constructor.newInstance(layoutInflater.inflate(layoutRes, parent, false));

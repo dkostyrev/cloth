@@ -14,6 +14,7 @@ import com.nemezis.cloth.presenter.ApplicationsPresenter;
 import com.nemezis.cloth.presenter.ApplicationsPresenterImpl;
 import com.nemezis.cloth.presenter.LoginPresenter;
 import com.nemezis.cloth.presenter.LoginPresenterImpl;
+import com.nemezis.cloth.ui.activity.StartupActivity;
 import com.nemezis.cloth.ui.login.LoginActivity;
 
 import dagger.Component;
@@ -34,8 +35,6 @@ public interface ApplicationComponent {
 
     MainActivityComponent plus(MainActivityModule mainActivityModule);
 
-    void inject(LoginActivity loginActivity);
-
     void inject(AuthorizationManager authorizationManager);
 
     void inject(LoginPresenterImpl loginPresenter);
@@ -45,4 +44,6 @@ public interface ApplicationComponent {
     void inject(ApplicationsManager applicationsManager);
 
     void inject(UserManager userManager);
+
+    void inject(StartupActivity startupActivity);
 }

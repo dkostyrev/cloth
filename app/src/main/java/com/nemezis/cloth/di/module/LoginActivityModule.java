@@ -2,6 +2,7 @@ package com.nemezis.cloth.di.module;
 
 import com.nemezis.cloth.di.PerActivity;
 import com.nemezis.cloth.di.component.ApplicationComponent;
+import com.nemezis.cloth.manager.AuthorizationManager;
 import com.nemezis.cloth.presenter.LoginPresenter;
 import com.nemezis.cloth.presenter.LoginPresenterImpl;
 
@@ -21,7 +22,7 @@ public class LoginActivityModule {
 
 	@Provides
     @PerActivity
-    LoginPresenter provideLoginPresenter() {
-		return new LoginPresenterImpl(applicationComponent);
+    LoginPresenter provideLoginPresenter(AuthorizationManager authorizationManager) {
+		return new LoginPresenterImpl(authorizationManager);
 	}
 }

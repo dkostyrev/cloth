@@ -22,6 +22,6 @@ public class MainActivityModule {
     @Provides
     @PerActivity
     ApplicationsPresenter provideApplicationsPresenter() {
-        return new ApplicationsPresenterImpl(applicationComponent);
+        return new ApplicationsPresenterImpl();
     }
 }
